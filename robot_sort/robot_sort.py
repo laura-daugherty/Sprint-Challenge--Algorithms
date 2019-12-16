@@ -102,9 +102,37 @@ class SortingRobot:
         """
         Returns True if the robot's light is off and False otherwise.
         """
-        return self._light != "ON"
+        return self._light == "OFF"
 
+    def move_to(self, i):
+        while self.can_move_left():
+            self.move_left()
+        for j in range(0, i):
+            self.move_right()
 
+    def swap(self, i, j):
+        # pick up arr[i]
+        self.move_to(i)
+        self.swap_item()
+
+        # swap with arr[j]
+        self.move_to(j)
+        self.swap_item()
+
+        # place arr[j] in arr[i]
+        self.move_to(i)
+        self.swap_item()
+        
+    def compare(self, i, j):
+        self.move_to(i)
+        self.swap_item()
+
+        self.move_to(j)
+        comparison = self.compare_item()
+        self.move_to(i)
+        self.swap_item()
+
+        return comparison
 
     def sort(self):
         """
@@ -116,37 +144,38 @@ class SortingRobot:
         print(self._item)
         print(self._list)
 
-        self.set_light_on()
+        for i in range(0, len(self._list)):
+            print("outer", self._list)
+            print("i", i)
+            for j in range(0, len(self._list) - i - 1):
+                print("  inner", self._list)
+                print("  j", j)
+                if self.compare(j, j + 1):
+                    print("  swapping")
+                    self.swap(j, j + 1)
+                    print("  swapped", self._list)
+
+            print("done with inner loop", self._list)
+                        
+        return self._list
+
+    # def bubble_sort( arr ):
+    # for i in range(0, len(arr)):
+    #     swapped = True
+    #     while swapped is True:
+    #         for j in range(i, len(arr)):
+    #             if arr[j] < arr[i]:
+    #                 temp = arr[i]
+    #                 arr[i] = arr[j]
+    #                 arr[j] = temp
+    #                 swapped = True
+    #             else:
+    #                 swapped = False
+    # return arr
+
 
         # if we get to the end of the list and the light is on, the array is sorted
-        while self.can_move_right() or self.light_is_off():
-            print("at beginning")
-            print(self._list)
-            # swap
-            if self._item == None:
-                print("have none, picking up item")
-                self.swap_item()
-            else:
-                # if the held item is less than the item at this point in the list, swap
-                if self.compare_item() == -1 or self.compare_item() == None:
-                    print("held item is less or none")
-                    self.swap_item()
-                else:
-                    self.set_light_off()
-
-            # traversal    
-            if self.can_move_right():
-                print("moving right-ooo")
-                self.move_right()
-            else:
-                print("resetting back to beginning")
-                # drop what we have, go back to beginning, turn light back on
-                self.set_light_on()
-                self.swap_item()
-                while self.can_move_left():
-                    self.move_left()
         
-
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
@@ -158,3 +187,33 @@ if __name__ == "__main__":
 
     robot.sort()
     print(robot._list)
+
+
+
+    # while self.can_move_right():
+    #         print("at beginning")
+    #         print(self._list)
+    #         # swap
+    #         if self._item == None:
+    #             print("have none, picking up item")
+    #             self.swap_item()
+    #         else:
+    #             # if the held item is less than the item at this point in the list, swap
+    #             if self.compare_item() == 1:
+    #                 print("held item is less or none")
+    #                 self.swap_item()
+    #                 self.set_light_off()
+    #             elif self.compare_item == 0 or self.compare_item == -1:
+
+    #         # traversal    
+    #         if self.can_move_right():
+    #             print("moving right-ooo")
+    #             self.move_right()
+    #         else:
+    #             print("resetting back to beginning")
+    #             # drop what we have, go back to beginning, turn light back on
+    #             self.set_light_on()
+    #             self.swap_item()
+    #             while self.can_move_left():
+    #                 self.move_left()
+        
