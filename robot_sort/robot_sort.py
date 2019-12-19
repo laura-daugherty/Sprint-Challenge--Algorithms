@@ -97,67 +97,44 @@ class SortingRobot:
         """
         return self._light == "ON"
 
-    # custom robot methods
-    def light_is_off(self):
-        """
-        Returns True if the robot's light is off and False otherwise.
-        """
-        return self._light == "OFF"
-
-    def move_to(self, i):
+    def sort(self):
+        self.set_light_off()
+        while self.can_move_right():
+            self.swap_item()
+            self.move_right()
+            if self.compare_item() == 1:
+                self.swap_item()
+                self.set_light_on()
+            self.move_left()
+            self.swap_item()
+            self.move_right()
         while self.can_move_left():
             self.move_left()
-        for j in range(0, i):
-            self.move_right()
+        if self.light_is_on():
+            self.sort()
+        else:
+            return
+#set light off
+#while can move right:
+    #pick up first item (swap)
+    #move_right()
+    #COMPARING
+    #if compare == 1
+        #swap
+        #turn on light
+    #move left
+    #swap
+    #move right
 
-    def swap(self, i, j):
-        # pick up arr[i]
-        self.move_to(i)
-        self.swap_item()
+#while can move left:
+    #move_left
+#if self.light_is_on:
+#   self.sort()
+#else:
+    #return
 
-        # swap with arr[j]
-        self.move_to(j)
-        self.swap_item()
 
-        # place arr[j] in arr[i]
-        self.move_to(i)
-        self.swap_item()
-        
-    def compare(self, i, j):
-        self.move_to(i)
-        self.swap_item()
 
-        self.move_to(j)
-        comparison = self.compare_item()
-        self.move_to(i)
-        self.swap_item()
-
-        return comparison
-
-    def sort(self):
-        """
-        Sort the robot's list.
-        """
-        # Fill this out
-
-        print(self._position)
-        print(self._item)
-        print(self._list)
-
-        for i in range(0, len(self._list)):
-            print("outer", self._list)
-            print("i", i)
-            for j in range(0, len(self._list) - i - 1):
-                print("  inner", self._list)
-                print("  j", j)
-                if self.compare(j, j + 1):
-                    print("  swapping")
-                    self.swap(j, j + 1)
-                    print("  swapped", self._list)
-
-            print("done with inner loop", self._list)
-                        
-        return self._list
 
     # def bubble_sort( arr ):
     # for i in range(0, len(arr)):
@@ -188,6 +165,68 @@ if __name__ == "__main__":
     robot.sort()
     print(robot._list)
 
+# custom robot methods
+    # def find_length(self):
+    #     count = 0
+    #     while self.can_move_right() == True:
+    #         self.move_right()
+    #         count += 1
+    #     return count
+
+    # def move_to(self, i):
+    #     while self.can_move_left():
+    #         self.move_left()
+    #     for j in range(0, i):
+    #         self.move_right()
+
+    # def swap(self, i, j):
+    #     # pick up arr[i]
+    #     self.move_to(i)
+    #     self.swap_item()
+
+    #     # swap with arr[j]
+    #     self.move_to(j)
+    #     self.swap_item()
+
+    #     # place arr[j] in arr[i]
+    #     self.move_to(i)
+    #     self.swap_item()
+        
+    # def compare(self, i, j):
+    #     self.move_to(i)
+    #     self.swap_item()
+
+    #     self.move_to(j)
+    #     comparison = self.compare_item()
+    #     self.move_to(i)
+    #     self.swap_item()
+
+    #     return comparison
+
+    # def sort(self):
+    #     """
+    #     Sort the robot's list.
+    #     """
+    #     # Fill this out
+
+    #     print(self._position)
+    #     print(self._item)
+    #     print(self._list)
+
+    #     for i in range(0, self.find_length()):
+    #         print("outer", self._list)
+    #         print("i", i)
+    #         for j in range(0, self.find_length() - i - 1):
+    #             print("  inner", self._list)
+    #             print("  j", j)
+    #             if self.compare(j, j + 1):
+    #                 print("  swapping")
+    #                 self.swap(j, j + 1)
+    #                 print("  swapped", self._list)
+
+    #         print("done with inner loop", self._list)
+                        
+    #     return self._list
 
 
     # while self.can_move_right():
